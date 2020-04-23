@@ -13,6 +13,8 @@ class PhotosViewController: UIViewController {
     @IBOutlet var uiView: UIView!
     @IBOutlet var imageView: UIImageView!
     var store: PhotoStore!
+    var photoArray = [Photo]()
+    var increment = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,7 @@ class PhotosViewController: UIViewController {
             (photosResult) -> Void in
             switch photosResult {
             case let .success(photos):
+                self.photoArray = photos
                 print("successfully found \(photos.count) photos")
                 if let firstPhoto = photos.first {
                     self.updateImageView(for: firstPhoto)
@@ -35,7 +38,8 @@ class PhotosViewController: UIViewController {
     }
     
     @objc func tap(_ gestureRecognizer: UIGestureRecognizer){
-    print("Recognized Tap")
+        increment+=1
+        self.updateImageView(for: photoArray[increment])
     }
     
     func updateImageView(for photo: Photo){
